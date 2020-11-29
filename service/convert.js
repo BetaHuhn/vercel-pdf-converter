@@ -1,12 +1,46 @@
 import chrome from 'chrome-aws-lambda'
-import StealthPlugin from 'puppeteer-extra-plugin-stealth'
-import AdblockerPlugin from 'puppeteer-extra-plugin-adblocker'
 import { addExtra } from 'puppeteer-extra'
+import AdblockerPlugin from 'puppeteer-extra-plugin-adblocker'
+
+// Workaround, see https://github.com/berstend/puppeteer-extra/issues/93#issuecomment-712364816
+import StealthPlugin from 'puppeteer-extra-plugin-stealth'
+import ChromeAppPlugin from 'puppeteer-extra-plugin-stealth/evasions/chrome.app'
+import ChromeCsiPlugin from 'puppeteer-extra-plugin-stealth/evasions/chrome.csi'
+import ChromeLoadTimes from 'puppeteer-extra-plugin-stealth/evasions/chrome.loadTimes'
+import ChromeRuntimePlugin from 'puppeteer-extra-plugin-stealth/evasions/chrome.runtime'
+import IFrameContentWindowPlugin from 'puppeteer-extra-plugin-stealth/evasions/iframe.contentWindow'
+import MediaCodecsPlugin from 'puppeteer-extra-plugin-stealth/evasions/media.codecs'
+import NavigatorLanguagesPlugin from 'puppeteer-extra-plugin-stealth/evasions/navigator.languages'
+import NavigatorPermissionsPlugin from 'puppeteer-extra-plugin-stealth/evasions/navigator.permissions'
+import NavigatorPlugins from 'puppeteer-extra-plugin-stealth/evasions/navigator.plugins'
+import NavigatorVendor from 'puppeteer-extra-plugin-stealth/evasions/navigator.vendor'
+import NavigatorWebdriver from 'puppeteer-extra-plugin-stealth/evasions/navigator.webdriver'
+import SourceUrlPlugin from 'puppeteer-extra-plugin-stealth/evasions/sourceurl'
+import UserAgentOverridePlugin from 'puppeteer-extra-plugin-stealth/evasions/user-agent-override'
+import WebglVendorPlugin from 'puppeteer-extra-plugin-stealth/evasions/webgl.vendor'
+import WindowOuterDimensionsPlugin from 'puppeteer-extra-plugin-stealth/evasions/window.outerdimensions'
 
 // Configure puppeteer-extra plugins
 const puppeteer = addExtra(chrome.puppeteer)
-puppeteer.use(StealthPlugin())
-puppeteer.use(AdblockerPlugin({ blockTrackers: true }))
+const plugins = [
+	AdblockerPlugin({ blockTrackers: true }),
+	StealthPlugin(),
+	ChromeAppPlugin(),
+	ChromeCsiPlugin(),
+	ChromeLoadTimes(),
+	ChromeRuntimePlugin(),
+	IFrameContentWindowPlugin(),
+	MediaCodecsPlugin(),
+	NavigatorLanguagesPlugin(),
+	NavigatorPermissionsPlugin(),
+	NavigatorPlugins(),
+	NavigatorVendor(),
+	NavigatorWebdriver(),
+	SourceUrlPlugin(),
+	UserAgentOverridePlugin(),
+	WebglVendorPlugin(),
+	WindowOuterDimensionsPlugin()
+]
 
 // Or just use puppeteer directly
 // import puppeteer from 'puppeteer-core'
@@ -44,6 +78,12 @@ export const getPdf = async (url) => {
 	// Start headless chrome instance
 	const options = await getOptions(isDev)
 	const browser = await puppeteer.launch(options)
+
+	// Load all plugins manually
+	for (const plugin of plugins) {
+		await plugin.onBrowser(browser)
+	}
+
 	const page = await browser.newPage()
 
 	// Visit URL and wait until everything is loaded (available events: load, domcontentloaded, networkidle0, networkidle2)
