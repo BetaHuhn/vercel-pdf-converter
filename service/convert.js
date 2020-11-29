@@ -87,8 +87,27 @@ export const getPdf = async (url) => {
 	const page = await browser.newPage()
 
 	// Visit URL and wait until everything is loaded (available events: load, domcontentloaded, networkidle0, networkidle2)
-	await page.goto(url, { waitUntil: 'domcontentloaded' })
+	await page.goto(url, { waitUntil: [ 'domcontentloaded', 'networkidle2' ] })
 
+	// Scroll to bottom of page to force loading of lazy loaded images
+	await page.evaluate(async () => {
+		await new Promise((resolve) => {
+			let totalHeight = 0
+			const distance = 100
+			const timer = setInterval(() => {
+				const scrollHeight = document.body.scrollHeight
+				window.scrollBy(0, distance)
+				totalHeight += distance
+
+				if (totalHeight >= scrollHeight) {
+					clearInterval(timer)
+					resolve()
+				}
+			}, 30)
+		})
+	})
+
+	// Wait to make sure everything is loaded
 	const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 	await delay(3500)
 

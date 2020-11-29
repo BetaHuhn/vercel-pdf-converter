@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint --ignore-path .gitignore . --ext .js",
-    "dev": "vercel dev",
+    "develop": "vercel dev",
     "deploy": "vercel deploy --prod"
   },
   "repository": {
