@@ -1,0 +1,6 @@
+{
+    "extends": "@betahuhn/eslint-config-node",
+    "rules": {
+        "new-cap": 0
+    }
+}
