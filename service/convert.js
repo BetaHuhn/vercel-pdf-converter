@@ -87,7 +87,7 @@ export const getPdf = async (url) => {
 	const page = await browser.newPage()
 
 	// Visit URL and wait until everything is loaded (available events: load, domcontentloaded, networkidle0, networkidle2)
-	await page.goto(url, { waitUntil: [ 'domcontentloaded', 'networkidle2' ] })
+	await page.goto(url, { waitUntil: 'networkidle2', timeout: 8000 })
 
 	// Scroll to bottom of page to force loading of lazy loaded images
 	await page.evaluate(async () => {
@@ -103,7 +103,7 @@ export const getPdf = async (url) => {
 					clearInterval(timer)
 					resolve()
 				}
-			}, 30)
+			}, 5)
 		})
 	})
 
