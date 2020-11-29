@@ -1,7 +1,7 @@
 :root {
     --background: #1d1e1f;
     --color: #fff;
-    --color-more: rgb(226, 226, 226);
+    --color-dark: rgb(226, 226, 226);
     --primary: #1374ef;
     --primary-dark:  #1564cc;
     --primary-link: #fff;
@@ -31,7 +31,7 @@ body {
 .banner {
     padding: 20px 20px;
     background: var(--primary);
-    color: var(--color-more);
+    color: var(--color);
     border-radius: 10px;
     margin: auto;
     margin-top: 2rem;
@@ -128,7 +128,7 @@ body {
     box-sizing: border-box;
     border-radius: 4px;
     background-color: var(--background);
-    color: var(--color-more);
+    color: var(--color-dark);
     font-weight: 200;
     font-style: normal;
     border: 1px solid #A6A6A6;
