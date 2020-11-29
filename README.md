@@ -58,6 +58,10 @@ to-pdf.vercel.app/https://github.com/BetaHuhn/vercel-pdf-converter
 
 The function will then generate a PDF of that URL and return it as a downloadable file.
 
+Here is how this GitHub Page looks as a PDF:
+
+![example](https://cdn.mxis.ch/assets/vercel-pdf-converter/preview.png)
+
 ## 💻 Development
 
 Issues and PRs are very welcome!
