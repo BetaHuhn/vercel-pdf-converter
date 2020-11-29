@@ -45,9 +45,6 @@ const plugins = [
 // Or just use puppeteer directly
 // import puppeteer from 'puppeteer-core'
 
-// Max delay duration in ms (Vercel functions has a limit of 10 s)
-const maxDuration = 8000
-
 const isDev = process.env.NODE_ENV === 'development'
 
 // Path to chrome executable on different platforms
@@ -77,7 +74,6 @@ export const getOptions = async (isDev) => {
 }
 
 export const getPdf = async (url) => {
-	const startTime = new Date().getTime()
 
 	// Start headless chrome instance
 	const options = await getOptions(isDev)
@@ -110,12 +106,6 @@ export const getPdf = async (url) => {
 			}, 30)
 		})
 	})
-
-	const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
-
-	// Wait remaining time of max duration to make sure everything is loaded
-	const passed = new Date().getTime() - startTime
-	await delay(Math.max(0, (maxDuration - passed)))
 
 	// Tell Chrome to generate the PDF
 	await page.emulateMediaType('screen')
