@@ -2,7 +2,7 @@
   
 # vercel-pdf-converter
 
-[![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/BetaHuhn/vercel-pdf-converter/blob/master/LICENSE) ![David](https://img.shields.io/david/betahuhn/vercel-pdf-converter)
+[![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/BetaHuhn/vercel-pdf-converter/blob/master/LICENSE) ![Version](https://img.shields.io/github/package-json/v/betahuhn/vercel-pdf-converter) ![Dependencies](https://img.shields.io/david/betahuhn/vercel-pdf-converter)
 
 Vercel function which generates PDFs from Webpages.
 
